@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello WebSocket</title>
+
+    <script type="text/javascript">
+        var websocket;
+
+
+        function connect() {
+            websocket = new WebSocket('ws://localhost:8183/hello');
+            websocket.onopen = function() {
+                 alert('onopen');
+            };
+
+            websocket.onerror = function() {
+                alert('onerror');
+            };
+
+            websocket.onclose = function() {
+                alert('onclose');
+            };
+
+            websocket.onmessage = function(evt) {
+                var received_msg = evt.data;
+                alert('onmessage : ' + received_msg);
+            };
+        }
+
+        function disconnect() {
+            //websocket.close();
+        }
+
+        function sendName() {
+            websocket.send(JSON.stringify({ 'status': '1' , 'value' : '239846793287649872364872936498732'}));
+        }
+
+
+    </script>
+</head>
+<body onload="disconnect()">
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable
+    Javascript and reload this page!</h2></noscript>
+<div>
+    <div>
+        <button id="connect" onclick="connect();">Connect</button>
+        <button id="disconnect" onclick="disconnect();">Disconnect</button>
+    </div>
+    <div id="conversationDiv">
+        <label>What is your name?</label><input type="text" id="name" />
+        <button id="sendName" onclick="sendName();">Send</button>
+        <p id="response"></p>
+    </div>
+</div>
+</body>
+</html>
